@@ -5,7 +5,7 @@
 ![Figure Description](assets/method.png)
 
 ## Contents
-This repo contains the official implementation for AVR. For our simulator: [AcoustiX Code](), please use another repo.
+This repo contains the official implementation for AVR. For our simulator: [AcoustiX Code](https://github.com/penn-waves-lab/AcoustiX), please use another repo.
 - [Abstract](#abstract)
 - [Codebase](#codebase)
 - [Usage](#usage)
