@@ -28,7 +28,7 @@ train:
   T_max: 500000
   eta_min: 5e-5
   total_iterations: 500000
-  load_ckpt: True
+  load_ckpt: Flase
   save_freq: 20000
   val_freq: 20000
 
@@ -45,7 +45,6 @@ train:
 model: 
   signal_output_dim: 2400
   leaky_relu: 0.03
-
 
   pos_encoding_sigma:
     base_resolution: 16

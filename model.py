@@ -108,7 +108,7 @@ class AVRModel_complex(nn.Module):
         self._dir_encoding = tcnn.Encoding(3, dir_encoding_sig, dtype=torch.float32)
         self._tx_dir_encoding = tcnn.Encoding(3, tx_dir_encoding_sig, dtype=torch.float32)
 
-        network_in_dims = self._rx_pos_encoding.n_output_dims + self._tx_pos_encoding.n_output_dims
+        network_in_dims = self._pos_encoding.n_output_dims + self._tx_pos_encoding.n_output_dims
         self._model_encoder_sigma = tcnn.Network(
             n_input_dims=network_in_dims,
             n_output_dims=256,
@@ -124,7 +124,7 @@ class AVRModel_complex(nn.Module):
         n_signal_input = self._model_encoder_sigma.n_output_dims + \
                 self._dir_encoding.n_output_dims + \
                 self._tx_dir_encoding.n_output_dims + \
-                self._rx_pos_signal_encoding.n_output_dims + \
+                self._pos_signal_encoding.n_output_dims + \
                 self._tx_pos_signal_encoding.n_output_dims
         
         self._model_signal = tcnn.Network(

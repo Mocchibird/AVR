@@ -38,13 +38,14 @@ pip install git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/to
 ```sh
 AVR/
 ├── config_files/          # training and testing config files
-│   ├── avr_raf.yml
+│   ├── avr_raf_furnished.yml
+│   ├── avr_raf_empty.yml
 │   ├── avr_meshrir.yml
 │   └── avr_simu.yml       
 ├── logs/                  # Log files
-│   ├── meshrir            # meshrir logs
-│   ├── simu               # simulation logs
-│   └── RAF                # RAF logs
+│   ├── meshrir            # Meshrir logs
+│   ├── RAF                # RAF logs
+│   └── simu               # Simulation logs
 ├── tensorboard_logs/      # TensorBoard log files
 ├── data/                  # Dataset 
 ├── utils/                 # Utility scripts
@@ -60,16 +61,21 @@ AVR/
 └── .gitignore             # Git ignore file
 ```
 
-## Exanoke Usage
+## Example Usage
 
-* Training AVR from scratch on RAF_furnished dataset
+* Train AVR on *RAF-Furnished* dataset
 ```sh
-python avr_runner.py --config ./config_files/avr_raf.yml --dataset_dir /data/RAF/FurnishedRoomSplit
+python avr_runner.py --config ./config_files/avr_raf_furnished.yml --dataset_dir ./data/RAF/FurnishedRoomSplit
 ```
 
-* Training AVR from scratch on MeshRIR dataset
+* Train AVR on *RAF-Empty* dataset
 ```sh
-python avr_runner.py --config ./config_files/avr_meshrir.yml  --dataset_dir /data/MeshRIR
+python avr_runner.py --config ./config_files/avr_raf_empty.yml --dataset_dir ./data/RAF/EmptyRoomSplit
+```
+
+* Train AVR on *MeshRIR* dataset
+```sh
+python avr_runner.py --config ./config_files/avr_meshrir.yml  --dataset_dir ./data/MeshRIR
 ```
 
 ## Results and Visualizations

@@ -4,7 +4,7 @@
 path:
   expname: raf_test
   dataset_type: RAF
-  logdir: logs/RAF_Furnished/
+  logdir: logs/RAF_Empty/
 
 
 ### rendering settings
@@ -14,8 +14,8 @@ render:
   near: 0
   far: 6
   n_samples: 32
-  n_azi: 24
-  n_ele: 12
+  n_azi: 48
+  n_ele: 24
   speed: 346.8
   fs: 16000
   pathloss: 0.5
@@ -32,9 +32,9 @@ train:
   save_freq: 10000
   total_iterations: 80000
 
-  spec_loss_weight: 0
-  amplitude_loss_weight: 0
-  angle_loss_weight: 0
+  spec_loss_weight: 1
+  amplitude_loss_weight: 1
+  angle_loss_weight: 1
   time_loss_weight: 20
   energy_loss_weight: 3
   multistft_loss_weight: 2
@@ -44,14 +44,14 @@ model:
   signal_output_dim: 1600
   leaky_relu: 0.03
 
-  rx_pos_encoding_sigma:
+  pos_encoding_sigma:
     base_resolution: 16
     log2_hashmap_size: 18
     n_features_per_level: 2
     n_levels: 20
     otype: HashGrid
 
-  rx_pos_encoding_sig:
+  pos_encoding_sig:
     base_resolution: 16
     log2_hashmap_size: 18
     n_features_per_level: 2
