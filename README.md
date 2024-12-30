@@ -1,6 +1,6 @@
 # AVR: Acoustic Volume Rendering for Neural Impulse Response Fields
 
-[[arXiv](https://arxiv.org/abs/2411.06307)] [[Website](https://zitonglan.github.io/project/avr/avr.html)] [[AcoustiX Code]()] [[BibTex](#citation)] 
+[[arXiv](https://arxiv.org/abs/2411.06307)] [[Website](https://zitonglan.github.io/project/avr/avr.html)] [[AcoustiX Code](https://github.com/penn-waves-lab/AcoustiX)] [[BibTex](#citation)] 
 
 ![Figure Description](assets/method.png)
 
