@@ -54,10 +54,11 @@ class WaveLoader(Dataset):
         if self.rotations_tx:
             self.rotations_tx = torch.tensor(np.array(self.rotations_tx), dtype=torch.float32)
 
-    def load_mesh_rir(self, base_folder, eval, seq_len, fs):
+    def load_mesh_rir(self, base_folder, eval, seq_len, fs=24000):
         """ Load MeshRIR datasets
         """
-        self.default_st_index = 9100
+        down_sample_rate = 48000 // fs
+        self.default_st_idx = int(9100 / down_sample_rate)
 
         if eval:
             wave_folder = os.path.join(base_folder, 'test')
@@ -71,7 +72,8 @@ class WaveLoader(Dataset):
         tx_pos = np.load(os.path.join(base_folder, 'pos_src.npy'))[0]
 
         for filename in filenames:
-            audio_data = np.load(os.path.join(wave_folder, filename))[0,::2][4050:4050+seq_len] 
+            audio_data = np.load(os.path.join(wave_folder, filename))[0,::down_sample_rate] # first resample the IR data
+            audio_data = audio_data[self.default_st_idx:self.default_st_idx+seq_len] # index the IR data.
             wave_data = np.fft.rfft(audio_data)
 
             file_ind = int(filename.split('_')[1].split('.')[0])
