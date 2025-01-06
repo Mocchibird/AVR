@@ -52,7 +52,9 @@ AVR/
 │   ├── criterion.py       # Loss functions   
 │   ├── logger.py          
 │   ├── spatialization.py  # Audio spatialization        
-│   └── metric.py          # Metrics calculation
+│   └── metric.py          # Metrics calculation.
+├── tools/                 # Tools to create datasets and more   
+│   └── meshrir_split.py   # Create meshrir dataset split
 ├── avr_runner.py          # AVR runner
 ├── datasets_loader.py     # dataloader for different datasets
 ├── model.py               # network
@@ -77,6 +79,9 @@ python avr_runner.py --config ./config_files/avr_raf_empty.yml --dataset_dir ./d
 ```sh
 python avr_runner.py --config ./config_files/avr_meshrir.yml  --dataset_dir ./data/MeshRIR
 ```
+
+## Create your own dataset
+MeshRIR dataset: Refer to [Create Meshrir Dataset Instructions](tools/README.md##Instructions-on-creating-Mesh-RIR-S1-M3969-split)
 
 ## Results and Visualizations
 We show some visualization results from our paper:

@@ -1,6 +1,6 @@
 # This folder contains tools to create the dataset
 
-## Instructions on how to create your own Mesh-RIR S1-M3969 Dataset:
+## Instructions on creating Mesh-RIR S1-M3969 split
 
 1. First download the [MeshRIR S1-3969 dataset](https://www.sh01.org/MeshRIR/) in an empty folder
 
