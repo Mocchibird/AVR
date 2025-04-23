@@ -22,7 +22,7 @@ from utils.criterion import Criterion
 
 
 class AVR_Runner():
-    def __init__(self, mode, dataset_dir, batchsize, **kwargs) -> None:
+    def __init__(self, mode, dataset_dir, batchsize, split_ratio, seed, **kwargs) -> None:
         ## Seperate each settings
         kwargs_path = kwargs['path']
         kwargs_render = kwargs['render']
@@ -86,9 +86,9 @@ class AVR_Runner():
         self.val_freq = kwargs_train['val_freq']
 
         ## dataloader
-        self.train_set = WaveLoader(base_folder=dataset_dir, dataset_type=self.dataset_type, eval=False, seq_len=kwargs_network['signal_output_dim'], fs=kwargs_render['fs'])
-        self.test_set = WaveLoader(base_folder=dataset_dir, dataset_type=self.dataset_type, eval=True, seq_len=kwargs_network['signal_output_dim'], fs=kwargs_render['fs'])
-        self.train_set_show = WaveLoader(base_folder=dataset_dir, dataset_type=self.dataset_type, eval=False, seq_len=kwargs_network['signal_output_dim'], fs=kwargs_render['fs'])
+        self.train_set = WaveLoader(base_folder=dataset_dir, dataset_type=self.dataset_type, eval=False, seq_len=kwargs_network['signal_output_dim'], fs=kwargs_render['fs'], split_ratio=split_ratio, seed=seed)
+        self.test_set = WaveLoader(base_folder=dataset_dir, dataset_type=self.dataset_type, eval=True, seq_len=kwargs_network['signal_output_dim'], fs=kwargs_render['fs'], split_ratio=split_ratio, seed=seed)
+        self.train_set_show = WaveLoader(base_folder=dataset_dir, dataset_type=self.dataset_type, eval=False, seq_len=kwargs_network['signal_output_dim'], fs=kwargs_render['fs'], split_ratio=split_ratio, seed=seed)
 
         self.train_iter = DataLoader(self.train_set, batch_size=self.batch_size, shuffle=True, num_workers=4)
         self.test_iter = DataLoader(self.test_set, batch_size=self.batch_size, shuffle=False, num_workers=4)
@@ -341,8 +341,9 @@ if __name__ == '__main__':
     parser.add_argument('--config', type=str, default='avr.yml', help='config file path')
     parser.add_argument('--dataset_dir', type=str, default='S1-M3969_npy')
     parser.add_argument('--batch_size', type=int, default=4)
+    parser.add_argument('--split_ratio', type=float, default=0.8, help='train/test split ratio')
+    parser.add_argument('--seed', type=int, default=42, help='random seed for splitting the dataset')
     args = parser.parse_args()
-
 
     if args.mode == 'train': # specify the config yaml
         with open(args.config, 'r') as file:
@@ -379,5 +380,5 @@ if __name__ == '__main__':
         print("Source and destination are the same, skipping copy.")
 
 
-    worker = AVR_Runner(mode=args.mode, dataset_dir=args.dataset_dir, batchsize=args.batch_size, **kwargs)
+    worker = AVR_Runner(mode=args.mode, dataset_dir=args.dataset_dir, batchsize=args.batch_size, split_ratio=args.split_ratio, seed=args.seed, **kwargs)
     worker.train()
