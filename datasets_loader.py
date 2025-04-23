@@ -5,9 +5,10 @@ from torch.utils.data import Dataset
 import glob
 import librosa
 import math
+import random
     
 class WaveLoader(Dataset):
-    def __init__(self, base_folder, dataset_type='MeshRIR', eval=False, seq_len=2048, fs=16000):
+    def __init__(self, base_folder, dataset_type='MeshRIR', eval=False, seq_len=2048, fs=16000, split_ratio=0.8, seed=42):
         """DataLoader initializations, can load three different sets together
 
         Parameters
@@ -41,7 +42,7 @@ class WaveLoader(Dataset):
         if dataset_type == 'MeshRIR':
             self.load_mesh_rir(base_folder, eval, seq_len, fs)
         elif dataset_type == 'RAF':
-            self.load_raf(base_folder, eval, seq_len, fs)
+            self.load_raf(base_folder, eval, seq_len, fs, split_ratio, seed)
         elif dataset_type == 'Simu':
             self.load_simu(base_folder, eval, seq_len, fs)
         else:
@@ -111,17 +112,24 @@ class WaveLoader(Dataset):
             self.positions_rx.append(position_rx)
             self.positions_tx.append(position_tx)
 
-    def load_raf(self, base_folder, eval, seq_len, fs):
+    def load_raf(self, base_folder, eval, seq_len, fs, split_ratio=0.8, seed=42):
         """ Load RAF datasets
         """
-        folderpaths = glob.glob(f"{base_folder}/*")
-        folderpaths.sort()
+        all_folders = glob.glob(os.path.join(base_folder, "data", "*"))
+        all_folders.sort()
+
+        # Shuffle and split
+        random.seed(seed)
+        random.shuffle(all_folders)
+        
+        # Split the dataset into training and testing sets
+        split_index = int(len(all_folders) * split_ratio)
+        print("Train/Test Split: ", split_ratio)
 
         if eval:
-            folderpaths = glob.glob(f"{base_folder}/test/*")
+            folderpaths = all_folders[split_index:]
         else:
-            folderpaths = glob.glob(f"{base_folder}/train/*")
-        folderpaths.sort()
+            folderpaths = all_folders[:split_index]
 
         for folderpath in folderpaths:
             rir_path = os.path.join(folderpath, "rir.wav")
@@ -138,6 +146,11 @@ class WaveLoader(Dataset):
             self.positions_rx.append(position_rx)
             self.positions_tx.append(position_tx)
             self.rotations_tx.append(rotation_tx)
+
+            # Print every 1000th folder
+            if len(self.wave_chunks) % 1000 == 0:
+                print("Loaded {} samples from RAF dataset.".format(len(self.wave_chunks)))   
+        print("Loaded {} samples from RAF dataset.".format(len(self.wave_chunks)))
 
     def load_position(self, file_path):
         position = []
