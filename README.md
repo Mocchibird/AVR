@@ -19,6 +19,7 @@ Below is the instructions on how to install and set up the project.
 
 ### Requirements (in addition to the common python stack)
 
+* Python 3.10
 * pytorch
 * numpy
 * scipy
